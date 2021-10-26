@@ -8,10 +8,10 @@
 import UIKit
 
 class TodoItem: NSObject, Encodable, Decodable {
-    var title:String
-    var isChecked:Bool
+    var title: String
+    var isChecked: Bool
     
-    init(title:String, isChecked:Bool) {
+    init(title: String, isChecked: Bool) {
         self.title = title
         self.isChecked = isChecked
     }

@@ -23,6 +23,8 @@ class TodoTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         self.navigationController?.navigationBar.prefersLargeTitles = true
         loadItems()
     }
@@ -55,8 +57,23 @@ class TodoTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        items.remove(at: indexPath.row)
-        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        if editingStyle == .delete {
+            items.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! TodoTableViewCell
+        let item = items[indexPath.row]
+        
+        if item.isChecked {
+            cell.status.text! = " "
+        }else{
+            cell.status.text! = "✅"
+        }
+        item.isChecked = !item.isChecked
+
     }
     
     /*
@@ -118,6 +135,22 @@ class TodoTableViewController: UITableViewController {
             editItemViewController.editItemDelegate = self
         }
     }
+    
+    private func handleMoveToTrash(indexPath: IndexPath) {
+        items.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let trash = UIContextualAction(style: .destructive,
+                                       title: "Delete") { [weak self] (action, view, completionHandler) in
+                                        self?.handleMoveToTrash(indexPath: indexPath)
+                                        completionHandler(true)
+        }
+        trash.backgroundColor = .systemRed
+        return UISwipeActionsConfiguration(actions: [trash])
+    }
+    
 
 }
 
