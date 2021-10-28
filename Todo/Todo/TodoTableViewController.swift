@@ -23,9 +23,11 @@ class TodoTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        setBackground()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         loadItems()
     }
 
@@ -151,6 +153,11 @@ class TodoTableViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: [trash])
     }
     
+    func setBackground() {
+        let backgroundImageView = UIImageView(image: UIImage(named: "3.jpeg"))
+        backgroundImageView.frame = self.tableView.frame
+        self.tableView.backgroundView = backgroundImageView;
+    }
 
 }
 

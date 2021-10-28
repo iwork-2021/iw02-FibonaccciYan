@@ -28,8 +28,9 @@ class ItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        doneButton.isEnabled = false	
+        // Do any additional setup after loading the view.≈
+        setbackground()
+        doneButton.isEnabled = false
         if itemToEdit != nil {
             doneButton.isEnabled = true
             self.titleInput.text! = itemToEdit!.title
@@ -49,6 +50,12 @@ class ItemViewController: UIViewController {
         }
         
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func setbackground() {
+        let backgroundImageView = UIImageView(frame: self.view.frame)
+        backgroundImageView.image = UIImage(named: "2.jpeg")
+        self.view.insertSubview(backgroundImageView, at: 0)
     }
     
     /*
